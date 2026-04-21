@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Screen/OnboardingScreen.dart';
+import 'Screen/ResetEmailSentScreen.dart';
+import 'Screen/SignInScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
+
+      initialRoute: '/',
+
+      routes: {
+        '/': (context) => OnboardingScreen(),
+        '/signin': (context) => SignInScreen(),
+        '/reset-email-sent': (context) => ResetEmailSentScreen(),
+        '/signup': (context) => SignInScreen(),
+      },
     );
   }
 }
