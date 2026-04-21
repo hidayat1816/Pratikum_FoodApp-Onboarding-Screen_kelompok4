@@ -9,6 +9,15 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentPage = 0;
+
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,9 +26,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Column(
           children: [
             const Spacer(flex: 2),
+
+            // 🔹 SLIDER
             Expanded(
               flex: 14,
               child: PageView.builder(
+                controller: _pageController,
                 itemCount: demoData.length,
                 onPageChanged: (value) {
                   setState(() {
@@ -33,7 +45,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
             ),
+
             const Spacer(),
+
+            // 🔹 DOT INDICATOR
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -41,22 +56,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 (index) => DotIndicator(isActive: index == currentPage),
               ),
             ),
+
             const Spacer(flex: 2),
+
+            // 🔹 BUTTON
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (currentPage == demoData.length - 1) {
+                    Navigator.pushReplacementNamed(context, '/signin');
+                  } else {
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                    );
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF22A45D),
                   foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 40),
+                  minimumSize: const Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: Text("Get Started".toUpperCase()),
+                child: Text(
+                  currentPage == demoData.length - 1 ? "GET STARTED" : "NEXT",
+                ),
               ),
             ),
+
             const Spacer(),
           ],
         ),
@@ -65,6 +95,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
+// =======================
+// 🔹 ONBOARD CONTENT
+// =======================
 class OnboardContent extends StatelessWidget {
   const OnboardContent({
     super.key,
@@ -82,19 +115,15 @@ class OnboardContent extends StatelessWidget {
         Expanded(
           child: AspectRatio(
             aspectRatio: 1,
-            child: Image.network(
-              illustration!,
-              fit: BoxFit.contain,
-            ),
+            child: Image.network(illustration!, fit: BoxFit.contain),
           ),
         ),
         const SizedBox(height: 16),
         Text(
           title!,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
@@ -107,6 +136,9 @@ class OnboardContent extends StatelessWidget {
   }
 }
 
+// =======================
+// 🔹 DOT INDICATOR
+// =======================
 class DotIndicator extends StatelessWidget {
   const DotIndicator({
     super.key,
@@ -122,18 +154,20 @@ class DotIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      margin: const EdgeInsets.symmetric(horizontal: 16 / 2),
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       height: 5,
-      width: 8,
+      width: isActive ? 20 : 8,
       decoration: BoxDecoration(
         color: isActive ? activeColor : inActiveColor.withOpacity(0.25),
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.circular(20),
       ),
     );
   }
 }
 
-// Demo data for our Onboarding screen
+// =======================
+// 🔹 DATA
+// =======================
 List<Map<String, dynamic>> demoData = [
   {
     "illustration": "https://i.postimg.cc/L43CKddq/Illustrations.png",
@@ -145,12 +179,11 @@ List<Map<String, dynamic>> demoData = [
     "illustration": "https://i.postimg.cc/xTjs9sY6/Illustrations-1.png",
     "title": "Free delivery offers",
     "text":
-        "Free delivery for new customers via Apple Pay\nand others payment methods.",
+        "Free delivery for new customers via Apple Pay\nand other payment methods.",
   },
   {
     "illustration": "https://i.postimg.cc/6qcYdZVV/Illustrations-2.png",
     "title": "Choose your food",
-    "text":
-        "Easily find your type of food craving and\nyou’ll get delivery in wide range.",
+    "text": "Easily find your favorite food and get fast delivery anytime.",
   },
 ];
