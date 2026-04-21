@@ -27,18 +27,19 @@ class SignInScreen extends StatelessWidget {
               const SignInForm(),
               const SizedBox(height: 16),
               Center(
-                  child: Text("Or",
-                      style: TextStyle(
-                          color: Color(0xFF010F07).withOpacity(0.7)))),
+                child: Text(
+                  "Or",
+                  style: TextStyle(color: Color(0xFF010F07).withOpacity(0.7)),
+                ),
+              ),
               const SizedBox(height: 16 * 1.5),
 
               Center(
                 child: Text.rich(
                   TextSpan(
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(fontWeight: FontWeight.w600),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                     text: "Don’t have account? ",
                     children: <TextSpan>[
                       TextSpan(
@@ -48,7 +49,7 @@ class SignInScreen extends StatelessWidget {
                           ..onTap = () {
                             // Navigate to Sign Up Screen
                           },
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -75,9 +76,7 @@ class SignInScreen extends StatelessWidget {
                 press: () {},
                 text: "Connect with Google",
                 color: const Color(0xFF4285F4),
-                icon: SvgPicture.string(
-                  googleIcon,
-                ),
+                icon: SvgPicture.string(googleIcon),
               ),
               const SizedBox(height: 16),
             ],
@@ -100,10 +99,9 @@ class WelcomeText extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           title,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 16 / 2),
         Text(text, style: TextStyle(color: Color(0xFF868686))),
@@ -178,10 +176,9 @@ class _SignInFormState extends State<SignInForm> {
             onTap: () {},
             child: Text(
               "Forget Password?",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
           const SizedBox(height: 16),
@@ -233,7 +230,8 @@ class SocalButton extends StatelessWidget {
           padding: padding,
           backgroundColor: color,
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8))),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
         ),
         onPressed: press,
         child: Row(
@@ -251,10 +249,10 @@ class SocalButton extends StatelessWidget {
             const Spacer(flex: 2),
             Text(
               text.toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const Spacer(flex: 3),
           ],
